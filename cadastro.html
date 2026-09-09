@@ -1,0 +1,96 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Plataforma de Cursos</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+
+        <h1>📝 Criar Conta</h1>
+        <p class="subtitulo">Preencha os dados abaixo para se registrar</p>
+
+        <div id="mensagem" class="mensagem"></div>
+
+        <form id="cadastroForm">
+
+            <div class="form-group">
+                <label for="nome">Nome completo</label>
+                <input
+                    type="text"
+                    id="nome"
+                    placeholder="Digite seu nome completo"
+                    required
+                    minlength="3"
+                >
+                <span class="erro" id="erroNome"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Digite seu e-mail"
+                    required
+                >
+                <span class="erro" id="erroEmail"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="senha">Senha</label>
+                <input
+                    type="password"
+                    id="senha"
+                    placeholder="Mínimo 6 caracteres"
+                    required
+                    minlength="6"
+                >
+                <span class="erro" id="erroSenha"></span>
+                <div class="forca-senha">
+                    <span id="indicadorForca"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmarSenha">Confirmar senha</label>
+                <input
+                    type="password"
+                    id="confirmarSenha"
+                    placeholder="Digite a senha novamente"
+                    required
+                >
+                <span class="erro" id="erroConfirmar"></span>
+            </div>
+
+            <button type="submit" id="btnCadastrar">
+                Cadastrar
+            </button>
+
+        </form>
+
+        <p class="link">
+            Já possui conta?
+            <a href="index.html">Clique aqui para entrar</a>
+        </p>
+
+    </div>
+</div>
+
+<script src="js/script.js"></script>
+
+<script>
+document.getElementById("cadastroForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    cadastrar();
+});
+</script>
+
+</body>
+</html>
+```
