@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#9258f5">
+
+<title>Portal do Aluno - GJF PLUS+</title>
+
+<link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="login-area">
+
+        <div class="login-content">
+
+            <h1>Login</h1>
+
+            <p>Entre com suas credenciais</p>
+
+            <input
+            id="email"
+            type="email"
+            placeholder="E-mail">
+
+            <div class="password">
+
+                <input
+                id="password"
+                type="password"
+                placeholder="Senha">
+
+                <span onclick="mostrarSenha()">👁</span>
+
+            </div>
+
+            <a href="#">
+                Perdeu a senha?
+            </a>
+
+            <button onclick="login()">
+                Entrar
+            </button>
+            <div id="mensagem-login" class="mensagem-login"></div>
+            <div class="signup">
+
+                <span>
+                    Você não tem uma conta?
+                </span>
+
+                <button onclick="window.location.href='cadastrar.html'">
+                    Cadastre-se
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="welcome">
+
+        <h2>
+            Bem-vindo(a) ao
+            <br>
+            <span>GJF PLUS+</span>
+        </h2>
+
+        <p>
+            Faça o login para acessar os cursos e materiais disponíveis.
+        </p>
+
+        <img
+        src="https://moklabs.com.br/main-lp-hero.svg"
+        class="portal-img">
+
+    </div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+
+import {
+    getAuth,
+    signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyB2wwy6prqLpVTMoY5m1OnWGKoKhZGlRXQ",
+    authDomain: "ifcursos.firebaseapp.com",
+    projectId: "ifcursos",
+    storageBucket: "ifcursos.firebasestorage.app",
+    messagingSenderId: "136338569768",
+    appId: "1:136338569768:web:79a67c2ea9b6ca8ed3531d",
+    measurementId: "G-H1XFGGJC31"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+function mostrarMensagem(texto, tipo){
+
+    const msg =
+    document.getElementById("mensagem-login");
+
+    msg.innerHTML = texto;
+    msg.className = "mensagem-login " + tipo;
+    msg.style.display = "block";
+
+}
+
+window.login = async () => {
+
+    const email =
+    document.getElementById("email").value.trim();
+
+    const senha =
+    document.getElementById("password").value;
+
+    if (!email || !senha) {
+
+        mostrarMensagem(
+            "⚠️ Preencha todos os campos.",
+            "erro"
+        );
+
+        return;
+    }
+
+    try {
+
+        await signInWithEmailAndPassword(
+            auth,
+            email,
+            senha
+        );
+
+        mostrarMensagem(
+            "✅ Login realizado com sucesso! Redirecionando...",
+            "sucesso"
+        );
+
+        setTimeout(() => {
+
+            window.location.href = "lobby.html";
+
+        }, 1500);
+
+    }
+
+    catch (erro) {
+
+        switch (erro.code) {
+
+            case "auth/invalid-email":
+                mostrarMensagem(
+                    "❌ O e-mail informado é inválido.",
+                    "erro"
+                );
+                break;
+
+            case "auth/invalid-credential":
+                mostrarMensagem(
+                    "❌ E-mail ou senha incorretos.",
+                    "erro"
+                );
+                break;
+
+            case "auth/user-not-found":
+                mostrarMensagem(
+                    "❌ Nenhuma conta encontrada para este e-mail.",
+                    "erro"
+                );
+                break;
+
+            case "auth/wrong-password":
+                mostrarMensagem(
+                    "❌ Senha incorreta.",
+                    "erro"
+                );
+                break;
+
+            case "auth/too-many-requests":
+                mostrarMensagem(
+                    "⏳ Muitas tentativas. Tente novamente mais tarde.",
+                    "erro"
+                );
+                break;
+
+            default:
+
+                mostrarMensagem(
+                    "❌ Erro ao realizar login.",
+                    "erro"
+                );
+
+                console.error(erro);
+
+        }
+
+    }
+
+};
+
+window.mostrarSenha = () => {
+
+    const campo =
+    document.getElementById("password");
+
+    campo.type =
+    campo.type === "password"
+    ? "text"
+    : "password";
+
+};
+
+</script>
+
+</body>
+</html>
